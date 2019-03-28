@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <dbname value="search_engine"></dbname>
+    <version value="2"></version>
+    <list>
+        <mapping class="com.lilium.intergratesearch.Entity.SearchEngine"></mapping>
+        <mapping class="com.lilium.intergratesearch.Entity.History"></mapping>
+    </list>
+</litepal>
