@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (!newQuery.equals("")) {
                                 mTranslationQuery = newQuery;
-                                mTransalationHandler.postDelayed(mTransaltionTask, 1000);
+                                mTransalationHandler.postDelayed(mTransaltionTask, 500);
                             }
                         } else {
                             mTranslationCardView.setVisibility(View.GONE);
@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (!newQuery.equals("")) {
                                 mBaiduQuery = newQuery;
-                                mBaiduHandler.postDelayed(mBaiduTask, 1000);
+                                mBaiduHandler.postDelayed(mBaiduTask, 500);
                             }
 
                         } else {
