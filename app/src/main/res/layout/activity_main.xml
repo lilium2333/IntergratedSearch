@@ -41,17 +41,30 @@
         <!--android:nestedScrollingEnabled="false"-->
         <!--app:headerLayout="@layout/nav_header_main" />-->
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/search_header"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             android:background="#F44336"
             android:elevation="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
-
-        </LinearLayout>
+            <TextView
+                android:id="@+id/day_sentence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="#ffffff"
+                android:lineSpacingMultiplier="1.2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/add_search_engine"

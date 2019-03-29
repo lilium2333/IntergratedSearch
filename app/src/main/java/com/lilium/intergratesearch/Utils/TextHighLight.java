@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextHighLight {
-    private static String mColor="#0098d0";
+    private static String mColor="#F44336";
     public static SpannableStringBuilder matcherSearchContent(String text, String[] keyword1) {
         String[] keyword = new String[keyword1.length];
         System.arraycopy(keyword1, 0, keyword, 0, keyword1.length);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.lilium.intergratesearch.Entity.BaiduEntiy;
 import com.lilium.intergratesearch.Listner.BaiduSubmitListner;
 import com.lilium.intergratesearch.R;
+import com.lilium.intergratesearch.Utils.TextHighLight;
 
 import java.util.List;
 
@@ -21,24 +22,25 @@ public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestion
     private List<BaiduEntiy> mBaiduList;
     private Context mContext;
     private BaiduSubmitListner mListner;
+    private String mSearchContent = "";
 
-    public BaiduSuggestionAdapter(List<BaiduEntiy> mBaiduList,Context context,BaiduSubmitListner listner) {
+    public BaiduSuggestionAdapter(List<BaiduEntiy> mBaiduList, Context context, BaiduSubmitListner listner) {
         this.mBaiduList = mBaiduList;
-        this.mContext=context;
-        this.mListner=listner;
+        this.mContext = context;
+        this.mListner = listner;
     }
 
     @NonNull
     @Override
     public BaiduSuggestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_baidu_list_item,viewGroup,false);
-        final ViewHolder viewHolder=new ViewHolder(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_baidu_list_item, viewGroup, false);
+        final ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.baiduSuggestionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=viewHolder.getAdapterPosition();
-                BaiduEntiy baiduEntiy=mBaiduList.get(position);
-                Uri url = Uri.parse("https://www.baidu.com/s?wd="+baiduEntiy.getSuggestion());
+                int position = viewHolder.getAdapterPosition();
+                BaiduEntiy baiduEntiy = mBaiduList.get(position);
+                Uri url = Uri.parse("https://www.baidu.com/s?wd=" + baiduEntiy.getSuggestion());
                 Intent intent = new Intent(Intent.ACTION_VIEW, url);
                 mContext.startActivity(intent);
 
@@ -47,8 +49,8 @@ public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestion
         viewHolder.baiduSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=viewHolder.getAdapterPosition();
-                BaiduEntiy baiduEntiy=mBaiduList.get(position);
+                int position = viewHolder.getAdapterPosition();
+                BaiduEntiy baiduEntiy = mBaiduList.get(position);
                 mListner.callback(baiduEntiy.getSuggestion());
             }
         });
@@ -58,9 +60,9 @@ public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestion
 
     @Override
     public void onBindViewHolder(@NonNull BaiduSuggestionAdapter.ViewHolder viewHolder, int i) {
-        BaiduEntiy baiduEntiy=mBaiduList.get(i);
-        viewHolder.baiduSuggestionItem.setText(baiduEntiy.getSuggestion());
-
+        BaiduEntiy baiduEntiy = mBaiduList.get(i);
+//        viewHolder.baiduSuggestionItem.setText(baiduEntiy.getSuggestion());
+        viewHolder.baiduSuggestionItem.setText(TextHighLight.matcherSearchContent(baiduEntiy.getSuggestion(),new String[]{mSearchContent}));
     }
 
     @Override
@@ -68,21 +70,25 @@ public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestion
         return mBaiduList.size();
     }
 
-    public void swapData(List<BaiduEntiy> baiduEntiyList){
-        this.mBaiduList=baiduEntiyList;
+    public void getSearchContent(String searchContent) {
+        this.mSearchContent = searchContent;
+    }
+
+    public void swapData(List<BaiduEntiy> baiduEntiyList) {
+        this.mBaiduList = baiduEntiyList;
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView baiduSuggestionItem;
         View baiduSuggestionView;
         ImageButton baiduSubmit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            baiduSuggestionView=itemView;
-            baiduSuggestionItem=(TextView)itemView.findViewById(R.id.baidu_suggestion_item);
-            baiduSubmit=(ImageButton)itemView.findViewById(R.id.baidu_submit);
+            baiduSuggestionView = itemView;
+            baiduSuggestionItem = (TextView) itemView.findViewById(R.id.baidu_suggestion_item);
+            baiduSubmit = (ImageButton) itemView.findViewById(R.id.baidu_submit);
 
         }
     }

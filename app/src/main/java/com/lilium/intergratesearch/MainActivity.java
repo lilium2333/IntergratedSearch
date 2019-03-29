@@ -3,6 +3,7 @@ package com.lilium.intergratesearch;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 import com.lilium.intergratesearch.AsyncTask.AppAysncTask;
 import com.lilium.intergratesearch.AsyncTask.ContactsAsyncTask;
@@ -48,6 +50,7 @@ import com.lilium.intergratesearch.Entity.BaiduEntiy;
 import com.lilium.intergratesearch.Entity.Contacts;
 import com.lilium.intergratesearch.Entity.History;
 import com.lilium.intergratesearch.Entity.SearchEngine;
+import com.lilium.intergratesearch.Entity.Sentence;
 import com.lilium.intergratesearch.Entity.Sms;
 import com.lilium.intergratesearch.Listner.AppListner;
 import com.lilium.intergratesearch.Listner.BaiduSubmitListner;
@@ -75,7 +78,9 @@ import com.lilium.intergratesearch.adapter.SmsSuggestionAdapter;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -149,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (!mBaiduQuery.equals("") && NetworkUtil.isNetworkAvailable(mContext)) {
-                String baiduSuggestionUrl = "http://suggestion.baidu.com/su?wd="+mBaiduQuery+"&json=1";
-                Log.d("baidutest", "run: "+baiduSuggestionUrl);
+                String baiduSuggestionUrl = "http://suggestion.baidu.com/su?wd=" + mBaiduQuery + "&json=1";
+                Log.d("baidutest", "run: " + baiduSuggestionUrl);
                 getSuggestions(baiduSuggestionUrl);
             }
 
@@ -603,6 +608,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            mBaiduAdapter.getSearchContent(mBaiduQuery);
                             mBaiduAdapter.swapData(mBaiduList);
                             mBaiduCardView.setVisibility(View.VISIBLE);
                         }
@@ -684,7 +690,61 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        final TextView mDaySentence = (TextView) findViewById(R.id.day_sentence);
+        SharedPreferences sharedPreferences = getSharedPreferences("sentence", MODE_PRIVATE);
 
+        if (!sharedPreferences.contains(getNowDate())) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HttpUtil.sendOkHttpRequest("http://open.iciba.com/dsapi/", new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDaySentence.setText("恭喜你触发彩蛋！\n其实是网络没加载成功哈哈哈哈");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String responseBody = response.body().string();
+                            Log.d("sentencetest", "onResponse: "+responseBody);
+                            recordSentence(responseBody);
+                        }
+                    });
+                }
+            }).start();
+        }
+        String result=sharedPreferences.getString(getNowDate(),"")+"\n//"+getNowDate();
+        mDaySentence.setText(result);
+
+    }
+
+
+    private void recordSentence(String responseBody) {
+        Gson gson = new Gson();
+        Sentence sentence = gson.fromJson(responseBody, Sentence.class);
+        String content = sentence.getContent();
+        String networkTime = sentence.getDateline();
+        SharedPreferences.Editor sentenceEditor = getSharedPreferences("sentence", MODE_PRIVATE).edit();
+        sentenceEditor.putString(networkTime, content);
+        sentenceEditor.apply();
+    }
+
+    private String getNowDate() {
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Date date=new Date();
+        String nowDate=simpleDateFormat.format(date);
+        Log.d("sentencetest", "getNowDate: "+nowDate);
+        return nowDate;
     }
 
     @Override
