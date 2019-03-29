@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -148,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (!mBaiduQuery.equals("") && NetworkUtil.isNetworkAvailable(mContext)) {
-                String baiduSuggestionUrl = "https://m.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=wise&from=wise_web&wd=" + mBaiduQuery + "&req=2";
+                String baiduSuggestionUrl = "http://suggestion.baidu.com/su?wd="+mBaiduQuery+"&json=1";
+                Log.d("baidutest", "run: "+baiduSuggestionUrl);
                 getSuggestions(baiduSuggestionUrl);
             }
 
@@ -586,6 +588,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "获取百度搜索建议失败", Toast.LENGTH_SHORT).show();
+                        Log.d("baidutest", "run: on failed");
                     }
                 });
 
