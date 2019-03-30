@@ -2,9 +2,8 @@ package com.lilium.intergratesearch.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import com.lilium.intergratesearch.R;
 import com.lilium.intergratesearch.Utils.TextHighLight;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestionAdapter.ViewHolder> {
     private List<BaiduEntiy> mBaiduList;
@@ -62,7 +64,12 @@ public class BaiduSuggestionAdapter extends RecyclerView.Adapter<BaiduSuggestion
     public void onBindViewHolder(@NonNull BaiduSuggestionAdapter.ViewHolder viewHolder, int i) {
         BaiduEntiy baiduEntiy = mBaiduList.get(i);
 //        viewHolder.baiduSuggestionItem.setText(baiduEntiy.getSuggestion());
-        viewHolder.baiduSuggestionItem.setText(TextHighLight.matcherSearchContent(baiduEntiy.getSuggestion(),new String[]{mSearchContent}));
+        viewHolder.baiduSuggestionItem.setText(TextHighLight.matcherSearchContent(baiduEntiy.getSuggestion(),new String[]{mSearchContent}, getColor()));
+    }
+    private String getColor(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences("config",Context.MODE_PRIVATE);
+        String color=sharedPreferences.getString("config_color","#F44336");
+        return color;
     }
 
     @Override

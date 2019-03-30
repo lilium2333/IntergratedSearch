@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddSearchActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
@@ -16,7 +16,7 @@
         app:contentInsetStart="0dp"
         app:popupTheme="@style/Theme.AppCompat.Light">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -63,16 +63,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v7.widget.Toolbar>
-    <android.support.constraint.ConstraintLayout
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:background="#fafafa" android:padding="16dp">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_search_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,9 +90,9 @@
                 android:inputType="text"
                 android:textColor="@color/black" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:padding="4dp"
             android:id="@+id/text_input_layout_search_url"
             android:layout_width="match_parent"
@@ -111,7 +111,7 @@
                 android:inputType="text"
                 android:textColor="@color/black" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </android.support.constraint.ConstraintLayout>
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,9 +2,8 @@ package com.lilium.intergratesearch.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,9 @@ import com.lilium.intergratesearch.R;
 import com.lilium.intergratesearch.Utils.TextHighLight;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SmsSuggestionAdapter extends RecyclerView.Adapter<SmsSuggestionAdapter.ViewHolder> {
     private Context mContext;
@@ -50,7 +52,7 @@ public class SmsSuggestionAdapter extends RecyclerView.Adapter<SmsSuggestionAdap
                 mContext.startActivity(intent);
             }
         });
-        viewHolder.smsBody.setText(TextHighLight.matcherSearchContent(sms.getSmsBody(),new String[]{mSearchContent}));
+        viewHolder.smsBody.setText(TextHighLight.matcherSearchContent(sms.getSmsBody(),new String[]{mSearchContent},getColor()));
     }
 
     @Override
@@ -61,6 +63,11 @@ public class SmsSuggestionAdapter extends RecyclerView.Adapter<SmsSuggestionAdap
     public void swapData(List<Sms> newSmsList){
         this.mSmsList=newSmsList;
         notifyDataSetChanged();
+    }
+    private String getColor(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences("config",Context.MODE_PRIVATE);
+        String color=sharedPreferences.getString("config_color","#F44336");
+        return color;
     }
     public void getSearchContent(String searchContent){
         this.mSearchContent=searchContent;

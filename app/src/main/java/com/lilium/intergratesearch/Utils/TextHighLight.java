@@ -10,8 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextHighLight {
-    private static String mColor="#F44336";
-    public static SpannableStringBuilder matcherSearchContent(String text, String[] keyword1) {
+//    private static String mColor="#F44336";
+    public static SpannableStringBuilder matcherSearchContent(String text, String[] keyword1,String color) {
         String[] keyword = new String[keyword1.length];
         System.arraycopy(keyword1, 0, keyword, 0, keyword1.length);
         SpannableStringBuilder spannable = new SpannableStringBuilder(text);
@@ -37,7 +37,7 @@ public class TextHighLight {
             Pattern pattern = Pattern.compile(wordReg);
             Matcher matcher = pattern.matcher(text);
             while (matcher.find()) {
-                span = new ForegroundColorSpan(Color.parseColor(mColor));
+                span = new ForegroundColorSpan(Color.parseColor(color));
                 spannable.setSpan(span, matcher.start(), matcher.end(), Spannable.SPAN_MARK_MARK);
             }
         }

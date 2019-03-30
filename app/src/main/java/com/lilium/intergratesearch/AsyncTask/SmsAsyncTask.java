@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Telephony;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import com.lilium.intergratesearch.Entity.Sms;
 import com.lilium.intergratesearch.Listner.SmsListner;

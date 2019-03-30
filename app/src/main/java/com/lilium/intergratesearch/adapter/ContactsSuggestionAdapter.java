@@ -2,9 +2,8 @@ package com.lilium.intergratesearch.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,9 @@ import com.lilium.intergratesearch.R;
 import com.lilium.intergratesearch.Utils.TextHighLight;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ContactsSuggestionAdapter extends RecyclerView.Adapter<ContactsSuggestionAdapter.ViewHolder> {
     private List<Contacts> mContactsList;
@@ -37,7 +39,7 @@ public class ContactsSuggestionAdapter extends RecyclerView.Adapter<ContactsSugg
     @Override
     public void onBindViewHolder(@NonNull ContactsSuggestionAdapter.ViewHolder viewHolder, int i) {
         final Contacts contacts=mContactsList.get(i);
-        viewHolder.contactsName.setText(TextHighLight.matcherSearchContent(contacts.getContactsName(),new String[]{mSearchContent}));
+        viewHolder.contactsName.setText(TextHighLight.matcherSearchContent(contacts.getContactsName(),new String[]{mSearchContent},getColor()));
         viewHolder.contactsNumber.setText(contacts.getContactsNumber());
         viewHolder.contactsview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,11 @@ public class ContactsSuggestionAdapter extends RecyclerView.Adapter<ContactsSugg
     }
     public void getSearchContent(String searchContent){
         this.mSearchContent=searchContent;
+    }
+    private String getColor(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences("config",Context.MODE_PRIVATE);
+        String color=sharedPreferences.getString("config_color","#F44336");
+        return color;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{

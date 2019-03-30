@@ -1,7 +1,7 @@
 package com.lilium.intergratesearch.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +15,18 @@ import com.lilium.intergratesearch.Utils.TextHighLight;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class AppSuggestionAdapter extends RecyclerView.Adapter<AppSuggestionAdapter.ViewHolder> {
     private List<App> mAppList;
     private static final String TAG = "AppSuggestionAdapter";
     private String mSearchContent;
+    private Context mContext;
 
-    public AppSuggestionAdapter(List<App> mAppList) {
+    public AppSuggestionAdapter(List<App> mAppList,Context context) {
         this.mAppList = mAppList;
+        this.mContext=context;
     }
 
     @NonNull
@@ -44,7 +49,7 @@ public class AppSuggestionAdapter extends RecyclerView.Adapter<AppSuggestionAdap
     @Override
     public void onBindViewHolder(@NonNull AppSuggestionAdapter.ViewHolder viewHolder, int i) {
         App app=mAppList.get(i);
-        viewHolder.appName.setText(TextHighLight.matcherSearchContent(app.getAppName(),new String[]{mSearchContent}));
+        viewHolder.appName.setText(TextHighLight.matcherSearchContent(app.getAppName(),new String[]{mSearchContent},getColor()));
         viewHolder.appImage.setImageBitmap(app.getAppImage());
     }
 
@@ -55,6 +60,12 @@ public class AppSuggestionAdapter extends RecyclerView.Adapter<AppSuggestionAdap
     public void swapData(List<App> mNewAppList){
         this.mAppList=mNewAppList;
         notifyDataSetChanged();
+    }
+
+    private String getColor(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences("config",Context.MODE_PRIVATE);
+        String color=sharedPreferences.getString("config_color","#F44336");
+        return color;
     }
     public void getSearchContent(String searchContent){
         this.mSearchContent=searchContent;

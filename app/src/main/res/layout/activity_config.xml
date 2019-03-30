@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ConfigActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/config_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
@@ -14,107 +14,123 @@
         android:padding="0dp"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:contentInsetStart="0dp"
-        app:popupTheme="@style/Theme.AppCompat.Light" />
+        app:title="Settings"
+        app:navigationIcon="@drawable/ic_myback"
+        app:popupTheme="@style/Theme.AppCompat.Light"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize">
+        android:layout_marginTop="?android:attr/actionBarSize"
+        >
 
         <TextView
             android:id="@+id/sms_config_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:text="短信搜索条数(默认为3)"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="短信搜索条数\n默认为3"
+            android:lineSpacingMultiplier="1.2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/sms_search_config_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:text="短信搜索建议生效字符数(默认为2)"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="短信搜索建议生效字符数\n默认为2"
             android:textSize="18sp"
+            android:lineSpacingMultiplier="1.2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sms_config_num" />
+            app:layout_constraintTop_toBottomOf="@+id/sms_config_num" android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/tranlation_config_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:text="翻译生效字符数(默认为3)"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:text="翻译生效字符数\n默认为3"
+            android:lineSpacingMultiplier="1.2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sms_search_config_num" />
+            app:layout_constraintTop_toBottomOf="@+id/sms_search_config_num" android:textColor="#000000"/>
+
         <TextView
             android:id="@+id/baidu_config_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:text="百度搜索建议生效字符数(默认为3)"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="百度搜索建议生效字符数\n默认为3"
+            android:lineSpacingMultiplier="1.2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tranlation_config_num" />
+            app:layout_constraintTop_toBottomOf="@+id/tranlation_config_num" android:textColor="#000000"/>
+
         <TextView
             android:id="@+id/network_config_delay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:text="网络延迟时间(默认为0.5秒)"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:text="网络延迟时间\n默认为0.5秒"
+            android:lineSpacingMultiplier="1.2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/baidu_config_num" />
+            app:layout_constraintTop_toBottomOf="@+id/baidu_config_num" android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/color_config"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
+            android:padding="16dp"
+            android:gravity="center_vertical"
             android:text="字符高亮颜色"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/network_config_delay" />
+            app:layout_constraintTop_toBottomOf="@+id/network_config_delay" android:textColor="#000000"/>
 
-    </android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/qr_icon"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color_config" />
 
-</android.support.design.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
