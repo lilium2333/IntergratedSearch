@@ -1,5 +1,6 @@
 package com.lilium.intergratesearch;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -12,13 +13,15 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
+import com.lilium.intergratesearch.Utils.BubbleFlag;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerDialog;
+import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -247,7 +250,7 @@ public class ConfigActivity extends AppCompatActivity {
         mColorConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ColorPickerDialog.Builder(mContext, android.R.style.Theme_Material_Light_Dialog_Alert)
+                ColorPickerDialog.Builder builder = new ColorPickerDialog.Builder(mContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
                         .setTitle("字符高亮设置")
                         .setIcon(getResources().getDrawable(R.drawable.ic_myadd))
                         .setPositiveButton(R.string.confirm,
@@ -266,10 +269,14 @@ public class ConfigActivity extends AppCompatActivity {
                                         dialogInterface.dismiss();
                                     }
                                 })
-
                         .attachAlphaSlideBar(true) // default is true. If false, do not show the AlphaSlideBar.
-                        .attachBrightnessSlideBar(true)// default is true. If false, do not show the BrightnessSlideBar.
-                        .show();
+                        .attachBrightnessSlideBar(true);// default is true. If false, do not show the BrightnessSlideBar.
+                ColorPickerView colorPickerView = builder.getColorPickerView();
+//                        colorPickerView.getLayoutParams().height=300;
+                colorPickerView.setPaletteDrawable(ContextCompat.getDrawable(mContext, R.drawable.palettebar));
+                colorPickerView.setFlagView(new BubbleFlag(mContext, R.layout.layout_flag));
+                builder.show();
+
             }
         });
 
