@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private SmsSuggestionAdapter mSmsAdapter;
     private CardView mSmsCardView;
     private String urlHead = "https://www.baidu.com/s?wd=%s";
-    public int smsMinSearchCount = 2;
+
     private List<SearchEngine> mSearchEngineList = new ArrayList<>();
     private RecyclerView mSearchEngineRecyclerView;
     private SearchEngineAdapter mSearchEngineAdapter;
@@ -163,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    //设置
+    private int mConfigSmsNum=3;
+    private int smsMinSearchCount = 2;
+    private int mTranslationMinCount=3;
+    private int mBaiduMinCount=3;
+    private int mNetworkDelay=500;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,8 +180,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent=new Intent(mContext,ConfigActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -414,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                                 mSmsCardView.setVisibility(View.GONE);
                                 Toast.makeText(mContext, "no sms matched", Toast.LENGTH_SHORT).show();
                             }
-                        }, mSmsList).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
+                        }, mSmsList,mConfigSmsNum).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
                     }
 
                     //搜索记录过滤显示
@@ -424,13 +433,13 @@ public class MainActivity extends AppCompatActivity {
                     //实时翻译 英译汉
 
                     if (oldQuery.length() < newQuery.length()) {
-                        if (newQuery.length() >= 3 && TranslationUtil.isEnglish(newQuery)) {
+                        if (newQuery.length() >= mTranslationMinCount && TranslationUtil.isEnglish(newQuery)) {
                             if (mTransaltionTask != null) {
                                 mTransalationHandler.removeCallbacks(mTransaltionTask);
                             }
                             if (!newQuery.equals("")) {
                                 mTranslationQuery = newQuery;
-                                mTransalationHandler.postDelayed(mTransaltionTask, 500);
+                                mTransalationHandler.postDelayed(mTransaltionTask, mNetworkDelay);
                             }
                         } else {
                             mTranslationCardView.setVisibility(View.GONE);
@@ -442,13 +451,13 @@ public class MainActivity extends AppCompatActivity {
                     //百度搜索建议
 
                     if (oldQuery.length() < newQuery.length()) {
-                        if (newQuery.length() > 3) {
+                        if (newQuery.length() >= mBaiduMinCount) {
                             if (mBaiduTask != null) {
                                 mBaiduHandler.removeCallbacks(mBaiduTask);
                             }
                             if (!newQuery.equals("")) {
                                 mBaiduQuery = newQuery;
-                                mBaiduHandler.postDelayed(mBaiduTask, 500);
+                                mBaiduHandler.postDelayed(mBaiduTask, mNetworkDelay);
                             }
 
                         } else {
@@ -684,6 +693,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mHistorySuggestionAdapter.notifyDataSetChanged();
+
+        //设置短信数
+
+        SharedPreferences smsShared=getSharedPreferences("config",MODE_PRIVATE);
+        String configSmsNum=smsShared.getString("config_sms_num","3");
+        mConfigSmsNum=Integer.parseInt(configSmsNum);
+
+
+        //短信生效数
+        SharedPreferences smsSearchShared=getSharedPreferences("config",MODE_PRIVATE);
+        String configSearchNum=smsSearchShared.getString("config_sms_search_num","2");
+        smsMinSearchCount=Integer.parseInt(configSearchNum);
+
+        //翻译生效数
+        SharedPreferences translationShared=getSharedPreferences("config",MODE_PRIVATE);
+        mTranslationMinCount=translationShared.getInt("config_translation_num",3);
+
+        //百度搜索建议生效数
+        SharedPreferences baiduShared=getSharedPreferences("config",MODE_PRIVATE);
+        mBaiduMinCount=baiduShared.getInt("config_baidu_num",3);
+
+        //设置网络延迟时间
+        SharedPreferences networkDelayShared=getSharedPreferences("config",MODE_PRIVATE);
+        mNetworkDelay=networkDelayShared.getInt("config_network_delay",500);
+        Log.d("networkdelay", "onResume: "+mNetworkDelay);
+
     }
 
 

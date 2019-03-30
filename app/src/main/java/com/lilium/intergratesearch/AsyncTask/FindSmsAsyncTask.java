@@ -11,10 +11,12 @@ import java.util.List;
 public class FindSmsAsyncTask extends AsyncTask<String,Void, List<Sms>> {
     private FindSmsLisnter mFindSmsLisnter;
     private List<Sms> mSmsList;
-    public int smsResultSize=3;
-    public FindSmsAsyncTask(FindSmsLisnter mFindSmsLisnter,List<Sms> smsList) {
+    public int smsResultSize;
+    public FindSmsAsyncTask(FindSmsLisnter mFindSmsLisnter,List<Sms> smsList,int configSmsNum) {
         this.mFindSmsLisnter = mFindSmsLisnter;
         this.mSmsList=smsList;
+        this.smsResultSize=configSmsNum;
+
     }
 
     @Override

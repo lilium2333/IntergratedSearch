@@ -10,6 +10,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+//    packagingOptions {
+//        exclude 'META-INF/androidx.vectordrawable_vectordrawable.version'
+//        exclude 'META-INF/androidx.legacy_legacy-support-core-utils.version'
+//        exclude 'META-INF/androidx.loader_loader.version'
+//        exclude 'META-INF/androidx.localbroadcastmanager_localbroadcastmanager.version'
+//        exclude 'META-INF/androidx.appcompat_appcompat.version'
+//        exclude 'META-INF/androidx.viewpager_viewpager.version'
+//        exclude 'META-INF/androidx.swiperefreshlayout_swiperefreshlayout.version'
+//    }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,10 +39,11 @@ dependencies {
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
     implementation group: 'com.belerweb', name: 'pinyin4j', version: '2.5.1'
+    implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
     implementation 'io.reactivex:rxjava:1.2.3'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
-
+//    implementation "com.github.skydoves:colorpickerview:2.1.3"
 // 支持Gson解析
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'org.litepal.android:core:1.4.1'
