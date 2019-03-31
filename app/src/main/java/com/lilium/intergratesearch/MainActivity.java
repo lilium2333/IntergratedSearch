@@ -24,7 +24,7 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.jaeger.library.StatusBarUtil;
+import com.gyf.barlibrary.ImmersionBar;
 import com.lilium.intergratesearch.AsyncTask.AppAysncTask;
 import com.lilium.intergratesearch.AsyncTask.ContactsAsyncTask;
 import com.lilium.intergratesearch.AsyncTask.FindAppAsyncTask;
@@ -193,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
         //设置状态栏
 
 //        StatusBarUtil.setColor(MainActivity.this, Color.parseColor("#F44336"));
-        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, mDrawer, Color.parseColor("#607D8B"));
-
+//        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, mDrawer, Color.parseColor("#607D8B"));
+        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).init();
 
         //设置导航宽度
 
@@ -806,6 +806,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
 
     private void recordSentence(String responseBody) {
         Gson gson = new Gson();

@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.jaeger.library.StatusBarUtil;
 import com.lilium.intergratesearch.Utils.BubbleFlag;
 import com.skydoves.colorpickerview.ColorEnvelope;
@@ -78,6 +79,7 @@ public class ConfigActivity extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.config_toolbar);
         setSupportActionBar(mToolbar);
         StatusBarUtil.setColor(ConfigActivity.this, Color.parseColor("#D32F2F"));
+        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).init();
         mToolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -443,5 +445,9 @@ public class ConfigActivity extends AppCompatActivity {
         editor.apply();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
+    }
 }

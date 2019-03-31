@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.jaeger.library.StatusBarUtil;
+import com.gyf.barlibrary.ImmersionBar;
 import com.lilium.intergratesearch.Entity.SearchEngine;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -34,8 +34,9 @@ public class AddSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_search);
-        StatusBarUtil.setColor(AddSearchActivity.this, Color.parseColor("#D32F2F"));
+//        StatusBarUtil.setColor(AddSearchActivity.this, Color.parseColor("#D32F2F"));
 //        StatusBarUtil.setTransparent(AddSearchActivity.this);
+        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).init();
 
         Toolbar mToolbar=(Toolbar)findViewById(R.id.add_search_toolbar);
         setSupportActionBar(mToolbar);
