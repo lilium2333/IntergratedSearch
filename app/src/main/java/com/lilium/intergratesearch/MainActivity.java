@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        StatusBarUtil.setColor(MainActivity.this, Color.parseColor("#F44336"));
 //        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, mDrawer, Color.parseColor("#607D8B"));
-        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).init();
+        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).keyboardEnable(true).keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE).init();
 
         //设置导航宽度
 
@@ -761,13 +761,6 @@ public class MainActivity extends AppCompatActivity {
         mConfigMatcher=configShared.getBoolean("config_matcher",true);
 
 
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         final TextView mDaySentence = (TextView) findViewById(R.id.day_sentence);
         SharedPreferences sharedPreferences = getSharedPreferences("sentence", MODE_PRIVATE);
 
@@ -794,7 +787,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             String responseBody = response.body().string();
-                            Log.d("sentencetest", "onResponse: "+responseBody);
+//                            Log.d("sentencetest", "onResponse: "+responseBody);
                             recordSentence(responseBody);
                         }
                     });
@@ -803,6 +796,16 @@ public class MainActivity extends AppCompatActivity {
         }
         String result=sharedPreferences.getString(getNowDate(),"")+"\n//"+getNowDate();
         mDaySentence.setText(result);
+
+
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
 
     }
 
@@ -826,7 +829,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
         Date date=new Date();
         String nowDate=simpleDateFormat.format(date);
-        Log.d("sentencetest", "getNowDate: "+nowDate);
+//        Log.d("sentencetest", "getNowDate: "+nowDate);
         return nowDate;
     }
 
