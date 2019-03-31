@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        StatusBarUtil.setColor(MainActivity.this, Color.parseColor("#F44336"));
 //        StatusBarUtil.setColorForDrawerLayout(MainActivity.this, mDrawer, Color.parseColor("#607D8B"));
-        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).keyboardEnable(true).keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE).init();
+        ImmersionBar.with(this).statusBarColor(R.color.my_color_primary).navigationBarColor(R.color.my_color_primary).barAlpha(0.3f).fitsSystemWindows(true).init();
 
         //设置导航宽度
 
