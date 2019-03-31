@@ -2,6 +2,7 @@ package com.lilium.intergratesearch.AsyncTask;
 
 import android.os.AsyncTask;
 
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.lilium.intergratesearch.Entity.Contacts;
 import com.lilium.intergratesearch.Listner.FindContactsListner;
 
@@ -11,10 +12,12 @@ import java.util.List;
 public class FindContactsAsyncTask extends AsyncTask<String, Void, List<Contacts>> {
     private FindContactsListner mFindContactsListner;
     private List<Contacts> mContactsList;
+    private boolean matched;
 
-    public FindContactsAsyncTask(FindContactsListner mFindContactsListner, List<Contacts> mContactsList) {
+    public FindContactsAsyncTask(FindContactsListner mFindContactsListner, List<Contacts> mContactsList,boolean matched) {
         this.mFindContactsListner = mFindContactsListner;
         this.mContactsList = mContactsList;
+        this.matched=matched;
     }
 
     @Override
@@ -22,7 +25,16 @@ public class FindContactsAsyncTask extends AsyncTask<String, Void, List<Contacts
         String text=strings[0];
         List<Contacts> contactsList=new ArrayList<>();
         for(Contacts contacts:mContactsList){
-            if(contacts.getContactsName().toLowerCase().trim().contains(text.toLowerCase().trim())){
+            String contactsName="";
+            String keywords="";
+            if(matched){
+                contactsName=Pinyin.toPinyin(contacts.getContactsName(),"").toLowerCase().trim();
+                keywords=Pinyin.toPinyin(text,"").toLowerCase().trim();
+            }else{
+                contactsName=contacts.getContactsName().toLowerCase().trim();
+                keywords=text.toLowerCase().trim();
+            }
+            if(contactsName.contains(keywords)){
                 contactsList.add(contacts);
             }
         }

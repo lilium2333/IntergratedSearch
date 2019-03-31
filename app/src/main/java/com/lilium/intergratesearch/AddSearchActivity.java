@@ -1,19 +1,21 @@
 package com.lilium.intergratesearch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.lilium.intergratesearch.Entity.SearchEngine;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.litepal.crud.DataSupport;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class AddSearchActivity extends AppCompatActivity {
     private ImageButton mCancelAdd;
@@ -26,6 +28,7 @@ public class AddSearchActivity extends AppCompatActivity {
     private String mUrl;
     private static final String TAG = "AddSearchActivity";
     private SearchEngine mSearchEngine;
+    private final Context mContext=AddSearchActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +75,37 @@ public class AddSearchActivity extends AppCompatActivity {
                 mName = mSearchName.getText().toString();
                 mUrl = mSearchUrl.getText().toString();
                 if (mUrl.equals("") || mName.equals("")) {
-                    Toast.makeText(AddSearchActivity.this, "提交不能为空", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddSearchActivity.this, "提交不能为空", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("提交不能为空嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 } else if (DataSupport.where("name = ? and url = ?", mName, mUrl).find(SearchEngine.class).size() > 0) {
-                    Toast.makeText(AddSearchActivity.this, "请不要重复添加", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddSearchActivity.this, "请不要重复添加", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("请不要重复添加嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }else if(!(mUrl.startsWith("http://")||mUrl.startsWith("https://"))){
-                    Toast.makeText(AddSearchActivity.this, "url头部必须为“https:// 或 http://", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AddSearchActivity.this, "url头部必须为“https:// 或 http://", Toast.LENGTH_LONG).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("url头部必须为\"https://\" 或 \"http://\"嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }else if(!mUrl.contains("%s")){
-                    Toast.makeText(AddSearchActivity.this,"url必须包含%s替换关键字",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AddSearchActivity.this,"url必须包含\"%s\"替换关键字",Toast.LENGTH_LONG).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("url必须包含\"%s\"替换关键字嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }
                 else {
                     SearchEngine searchEngine = new SearchEngine();
@@ -100,7 +127,13 @@ public class AddSearchActivity extends AppCompatActivity {
                     setResult(200);
                     finish();
                 } else {
-                    Toast.makeText(AddSearchActivity.this, "删除失败", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddSearchActivity.this, "删除失败", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("删除失败了嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }
 
             }
@@ -123,7 +156,13 @@ public class AddSearchActivity extends AppCompatActivity {
                     setResult(RESULT_OK,intentUpdate);
                     finish();
                 } else {
-                    Toast.makeText(AddSearchActivity.this, "更新失败", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddSearchActivity.this, "更新失败", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("更新失败了嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }
             }
         });

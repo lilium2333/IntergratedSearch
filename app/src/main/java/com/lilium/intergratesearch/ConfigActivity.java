@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -55,6 +57,20 @@ public class ConfigActivity extends AppCompatActivity {
 
     private TextView mColorConfig;
 
+
+    private static final String[] mBaiduCount = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private View mBaiduCountDialogView;
+    private NumberPicker mBaiduCountNumberPicker;
+    private TextView mBaiduCountTextView;
+
+    private static final String[] mHistoryCount = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private View mHistoryCountDialogView;
+    private NumberPicker mHistoryCountNumberPicker;
+    private TextView mHistoryCountTextView;
+
+
+    private CheckBox mConfigMatcherCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +100,8 @@ public class ConfigActivity extends AppCompatActivity {
                 mSmsNumberPicker.setMaxValue(smsNums.length - 1);
                 mSmsNumberPicker.setValue(Integer.parseInt(getSharedPreferences("config", MODE_PRIVATE).getString("config_sms_num", "3")) - 1);
                 builder.setView(mSmsDialogView);
-                builder.setTitle("修改短信最大搜索条数:");
-                builder.setIcon(getResources().getDrawable(R.drawable.ic_myadd));
+                builder.setTitle("短信最大搜索条数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
                             @Override
@@ -120,8 +136,8 @@ public class ConfigActivity extends AppCompatActivity {
                 mSmsSearchNumberPicker.setMaxValue(smsMinSearchCount.length - 1);
                 mSmsSearchNumberPicker.setValue(Integer.parseInt(getSharedPreferences("config", MODE_PRIVATE).getString("config_sms_search_num", "2")) - 1);
                 builder.setView(mSmsSearchDialogView);
-                builder.setTitle("修改短信最大搜索条数:");
-                builder.setIcon(getResources().getDrawable(R.drawable.ic_myadd));
+                builder.setTitle("短信最大搜索条数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
                             @Override
@@ -153,8 +169,8 @@ public class ConfigActivity extends AppCompatActivity {
                 mTranslationNumberPicker.setMaxValue(mTranslationMinCount.length - 1);
                 mTranslationNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_translation_num", 3) - 1);
                 builder.setView(mTranslationDialogView);
-                builder.setTitle("修改翻译生效字符数:");
-                builder.setIcon(getResources().getDrawable(R.drawable.ic_myadd));
+                builder.setTitle("翻译生效字符数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
                             @Override
@@ -189,8 +205,8 @@ public class ConfigActivity extends AppCompatActivity {
                 mBaiduNumberPicker.setMaxValue(mBaiduMinCount.length - 1);
                 mBaiduNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_baidu_num", 3) - 1);
                 builder.setView(mBaiduDialogView);
-                builder.setTitle("修改百度搜索建议生效字符数:");
-                builder.setIcon(getResources().getDrawable(R.drawable.ic_myadd));
+                builder.setTitle("百度搜索建议生效字符数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
                             @Override
@@ -222,9 +238,9 @@ public class ConfigActivity extends AppCompatActivity {
                 mNetWorkNumberPicker.setMaxValue(mNetworkDelay.length + 2);
                 mNetWorkNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_network_delay", 500) / 100);
                 builder.setView(mnetWorkDialogView);
-                builder.setTitle("修改网络延迟时间(单位:ms)");
+                builder.setTitle("网络延迟时间(单位:ms)");
                 builder.setMessage("网络延迟时间调小可能造成卡顿!\n建议普通玩家不要尝试!");
-                builder.setIcon(getResources().getDrawable(R.drawable.ic_myadd));
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
                             @Override
@@ -252,7 +268,7 @@ public class ConfigActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ColorPickerDialog.Builder builder = new ColorPickerDialog.Builder(mContext, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
                         .setTitle("字符高亮设置")
-                        .setIcon(getResources().getDrawable(R.drawable.ic_myadd))
+                        .setIcon(getResources().getDrawable(R.drawable.ic_mysettings))
                         .setPositiveButton(R.string.confirm,
                                 new ColorEnvelopeListener() {
                                     @Override
@@ -280,7 +296,100 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
+        //百度搜索条数
+        mBaiduCountTextView = (TextView) findViewById(R.id.baidu_config_num_search);
+        mBaiduCountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBaiduCountDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_sms, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                mBaiduCountNumberPicker = (NumberPicker) mBaiduCountDialogView.findViewById(R.id.numberPicker_sms);
+                mBaiduCountNumberPicker.setDisplayedValues(mBaiduCount);
+                mBaiduCountNumberPicker.setMinValue(0);
+                mBaiduCountNumberPicker.setMaxValue(mBaiduCount.length - 1);
+                mBaiduCountNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_baidu_count", 5) - 1);
+                builder.setView(mBaiduCountDialogView);
+                builder.setTitle("修改百度搜索建议生效字符数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
+                builder.setPositiveButton("确定",
+                        new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                configBaiduCount(mBaiduCountNumberPicker.getValue() + 1);
+                            }
+                        });
+                builder.setNegativeButton("取消",
+                        new android.content.DialogInterface.OnClickListener() {
 
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
+            }
+        });
+
+        //搜索记录条数
+        mHistoryCountTextView = (TextView) findViewById(R.id.history_config_num);
+        mHistoryCountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHistoryCountDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_sms, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                mHistoryCountNumberPicker = (NumberPicker) mHistoryCountDialogView.findViewById(R.id.numberPicker_sms);
+                mHistoryCountNumberPicker.setDisplayedValues(mHistoryCount);
+                mHistoryCountNumberPicker.setMinValue(0);
+                mHistoryCountNumberPicker.setMaxValue(mHistoryCount.length - 1);
+                mHistoryCountNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_history_count", 5) - 1);
+                builder.setView(mHistoryCountDialogView);
+                builder.setTitle("修改百度搜索建议生效字符数:");
+                builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
+                builder.setPositiveButton("确定",
+                        new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                configHistoryCount(mHistoryCountNumberPicker.getValue() + 1);
+                            }
+                        });
+                builder.setNegativeButton("取消",
+                        new android.content.DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
+            }
+        });
+        mConfigMatcherCheckBox=(CheckBox) findViewById(R.id.config_matcher_btn);
+        mConfigMatcherCheckBox.setChecked(getSharedPreferences("config",MODE_PRIVATE).getBoolean("config_matcher",true));
+        mConfigMatcherCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                configMatcher(isChecked);
+            }
+        });
+
+
+
+    }
+
+    //启用模糊搜索
+    private void configMatcher(boolean isChecked){
+        SharedPreferences.Editor editor=getSharedPreferences("config",MODE_PRIVATE).edit();
+        editor.putBoolean("config_matcher",isChecked);
+        editor.apply();
+    }
+
+    //搜索记录条数
+    private void configHistoryCount(int historyCount) {
+        SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
+        editor.putInt("config_history_count", historyCount);
+        editor.apply();
     }
 
     //设置短信修改条数
@@ -320,9 +429,17 @@ public class ConfigActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    //设置颜色
     private void configColor(String colorHexCode) {
         SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
         editor.putString("config_color", colorHexCode);
+        editor.apply();
+    }
+
+    //设置百度建议条数
+    private void configBaiduCount(int baiduCount) {
+        SharedPreferences.Editor editor = getSharedPreferences("config", MODE_PRIVATE).edit();
+        editor.putInt("config_baidu_count", baiduCount);
         editor.apply();
     }
 

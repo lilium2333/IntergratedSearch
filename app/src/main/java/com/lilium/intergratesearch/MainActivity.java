@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -63,6 +62,7 @@ import com.lilium.intergratesearch.adapter.ContactsSuggestionAdapter;
 import com.lilium.intergratesearch.adapter.HistorySuggestionAdapter;
 import com.lilium.intergratesearch.adapter.SearchEngineAdapter;
 import com.lilium.intergratesearch.adapter.SmsSuggestionAdapter;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.litepal.crud.DataSupport;
 
@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
     private int mTranslationMinCount=3;
     private int mBaiduMinCount=3;
     private int mNetworkDelay=500;
+    private int mBaiduCount=5;
+    private int mHistoryCount=5;
+    private boolean mConfigMatcher=true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -218,7 +221,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void callback(SearchEngine searchEngine, int position) {
                 if (position == 0 || position == 1) {
-                    Toast.makeText(mContext, "默认搜索引擎不能修改嗷", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "默认搜索引擎不能修改嗷", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("搜索引擎不能修改嗷!")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                     return;
                 }
                 mSearchEngineDelete = searchEngine;
@@ -238,7 +247,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                Toast.makeText(mContext, "没有添加自定义搜索引擎嗷", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "没有添加自定义搜索引擎嗷", Toast.LENGTH_LONG).show();
+                new StyleableToast
+                        .Builder(mContext)
+                        .text("没有添加自定义搜索引擎嗷")
+                        .textColor(Color.WHITE)
+                        .backgroundColor(Color.parseColor("#F44336"))
+                        .show();
             }
         }).execute();
 
@@ -276,7 +291,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                Toast.makeText(mContext, "未找到搜索记录", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "未找到搜索记录", Toast.LENGTH_SHORT).show();
+
             }
         }).execute();
 
@@ -386,9 +402,9 @@ public class MainActivity extends AppCompatActivity {
                             mAppAdapter.swapData(mAppList);
 //                            mAppRecyclerView.setVisibility(View.GONE);
                             mAppCardView.setVisibility(View.GONE);
-                            Toast.makeText(MainActivity.this, "no app match", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "no app match", Toast.LENGTH_SHORT).show();
                         }
-                    }, mAppList).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
+                    }, mAppList,mConfigMatcher).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
 
                     //搜索联系人
 
@@ -403,9 +419,9 @@ public class MainActivity extends AppCompatActivity {
                         public void onFailed() {
                             mContactsAdapter.swapData(mContactsList);
                             mContactsCardView.setVisibility(View.GONE);
-                            Toast.makeText(mContext, "no contacts match", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, "no contacts match", Toast.LENGTH_SHORT).show();
                         }
-                    }, mContactsList).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
+                    }, mContactsList,mConfigMatcher).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
 
                     //搜索短信内容
 
@@ -421,9 +437,9 @@ public class MainActivity extends AppCompatActivity {
                             public void onFailed() {
                                 mSmsAdapter.swapData(mSmsList);
                                 mSmsCardView.setVisibility(View.GONE);
-                                Toast.makeText(mContext, "no sms matched", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(mContext, "no sms matched", Toast.LENGTH_SHORT).show();
                             }
-                        }, mSmsList,mConfigSmsNum).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
+                        }, mSmsList,mConfigSmsNum,mConfigMatcher).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, newQuery);
                     }
 
                     //搜索记录过滤显示
@@ -567,7 +583,13 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mContext, "获取翻译数据失败", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, "获取翻译数据失败", Toast.LENGTH_SHORT).show();
+                        new StyleableToast
+                                .Builder(mContext)
+                                .text("获取翻译数据失败")
+                                .textColor(Color.WHITE)
+                                .backgroundColor(Color.parseColor("#F44336"))
+                                .show();
                     }
                 });
 
@@ -601,8 +623,14 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mContext, "获取百度搜索建议失败", Toast.LENGTH_SHORT).show();
-                        Log.d("baidutest", "run: on failed");
+//                        Toast.makeText(mContext, "获取百度搜索建议失败", Toast.LENGTH_SHORT).show();
+//                        Log.d("baidutest", "run: on failed");
+                        new StyleableToast
+                                .Builder(mContext)
+                                .text("获取百度搜索建议失败")
+                                .textColor(Color.WHITE)
+                                .backgroundColor(Color.parseColor("#F44336"))
+                                .show();
                     }
                 });
 
@@ -611,7 +639,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseBody = response.body().string();
-                List<BaiduEntiy> baiduEntiyList = BaiduSuggestionUtil.parseBaiduSuggestion(responseBody);
+                List<BaiduEntiy> baiduEntiyList = BaiduSuggestionUtil.parseBaiduSuggestion(responseBody,mContext);
                 if (baiduEntiyList != null && baiduEntiyList.size() > 0) {
                     mBaiduList = baiduEntiyList;
                     runOnUiThread(new Runnable() {
@@ -626,7 +654,13 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext, "获取百度搜索建议失败", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, "获取百度搜索建议失败", Toast.LENGTH_SHORT).show();
+                            new StyleableToast
+                                    .Builder(mContext)
+                                    .text("获取百度搜索建议失败")
+                                    .textColor(Color.WHITE)
+                                    .backgroundColor(Color.parseColor("#F44336"))
+                                    .show();
                         }
                     });
                 }
@@ -647,7 +681,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                Toast.makeText(mContext, "failed to load sms", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "failed to load sms", Toast.LENGTH_SHORT).show();
             }
         }).execute();
     }
@@ -664,7 +698,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                Toast.makeText(mContext, "failed to load contacts", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "failed to load contacts", Toast.LENGTH_SHORT).show();
             }
         }).execute();
     }
@@ -683,7 +717,7 @@ public class MainActivity extends AppCompatActivity {
         mHistoryCardView.setVisibility(View.GONE);
         history.setHistoryBodyText(mQueryText);
         history.save();
-        if (mHistoryList.size() > 5) {
+        if (mHistoryList.size() > mHistoryCount) {
             mHistoryList.removeLast();
             DataSupport.deleteAll(History.class, "id= ? ", String.valueOf(DataSupport.findFirst(History.class).getId()));
         }
@@ -693,31 +727,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mHistorySuggestionAdapter.notifyDataSetChanged();
+        SharedPreferences configShared=getSharedPreferences("config",MODE_PRIVATE);
 
         //设置短信数
 
-        SharedPreferences smsShared=getSharedPreferences("config",MODE_PRIVATE);
-        String configSmsNum=smsShared.getString("config_sms_num","3");
+        String configSmsNum=configShared.getString("config_sms_num","3");
         mConfigSmsNum=Integer.parseInt(configSmsNum);
 
 
         //短信生效数
-        SharedPreferences smsSearchShared=getSharedPreferences("config",MODE_PRIVATE);
-        String configSearchNum=smsSearchShared.getString("config_sms_search_num","2");
+
+        String configSearchNum=configShared.getString("config_sms_search_num","2");
         smsMinSearchCount=Integer.parseInt(configSearchNum);
 
         //翻译生效数
-        SharedPreferences translationShared=getSharedPreferences("config",MODE_PRIVATE);
-        mTranslationMinCount=translationShared.getInt("config_translation_num",3);
+        mTranslationMinCount=configShared.getInt("config_translation_num",3);
 
         //百度搜索建议生效数
-        SharedPreferences baiduShared=getSharedPreferences("config",MODE_PRIVATE);
-        mBaiduMinCount=baiduShared.getInt("config_baidu_num",3);
+        mBaiduMinCount=configShared.getInt("config_baidu_num",3);
 
         //设置网络延迟时间
-        SharedPreferences networkDelayShared=getSharedPreferences("config",MODE_PRIVATE);
-        mNetworkDelay=networkDelayShared.getInt("config_network_delay",500);
-        Log.d("networkdelay", "onResume: "+mNetworkDelay);
+        mNetworkDelay=configShared.getInt("config_network_delay",500);
+//        Log.d("networkdelay", "onResume: "+mNetworkDelay);
+
+
+        //百度搜素条数
+        mBaiduCount=configShared.getInt("config_baidu_count",5);
+
+        //搜索记录条数
+        mHistoryCount=configShared.getInt("config_history_count",5);
+
+        //模糊搜索
+        mConfigMatcher=configShared.getBoolean("config_matcher",true);
+
+
 
     }
 
@@ -822,14 +865,26 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     readContacts();
                 } else {
-                    Toast.makeText(this, "You denied the contacts permission", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "You denied the contacts permission", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("拒绝了权限有些功能将不能使用嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }
                 break;
             case 2:
                 if (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     readSms();
                 } else {
-                    Toast.makeText(this, "you denied the sms permission", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "you denied the sms permission", Toast.LENGTH_SHORT).show();
+                    new StyleableToast
+                            .Builder(mContext)
+                            .text("拒绝了权限有些功能将不能使用嗷")
+                            .textColor(Color.WHITE)
+                            .backgroundColor(Color.parseColor("#F44336"))
+                            .show();
                 }
                 break;
             default:

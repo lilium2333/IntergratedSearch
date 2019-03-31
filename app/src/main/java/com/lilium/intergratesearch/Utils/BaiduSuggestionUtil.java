@@ -1,5 +1,6 @@
 package com.lilium.intergratesearch.Utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -10,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaiduSuggestionUtil {
-    public static List<BaiduEntiy> parseBaiduSuggestion(String responseBody){
+    public static List<BaiduEntiy> parseBaiduSuggestion(String responseBody, Context context){
+        int mbaiduCount=context.getSharedPreferences("config",Context.MODE_PRIVATE).getInt("config_baidu_count",5);
         List<BaiduEntiy> baiduEntiyList=new ArrayList<>();
         try{
             Gson gson=new Gson();
@@ -23,7 +25,7 @@ public class BaiduSuggestionUtil {
                 baiduEntiy.setKeywords(baiduSuggestion.getQ());
                 baiduEntiy.setSuggestion(suggestion);
                 baiduEntiyList.add(baiduEntiy);
-                if(baiduEntiyList.size()>=5){
+                if(baiduEntiyList.size()>=mbaiduCount){
                     break;
                 }
             }
