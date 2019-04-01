@@ -102,7 +102,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mSmsNumberPicker.setMaxValue(smsNums.length - 1);
                 mSmsNumberPicker.setValue(Integer.parseInt(getSharedPreferences("config", MODE_PRIVATE).getString("config_sms_num", "3")) - 1);
                 builder.setView(mSmsDialogView);
-                builder.setTitle("短信最大搜索条数:");
+                builder.setTitle("短信最大搜索条数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
@@ -138,7 +138,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mSmsSearchNumberPicker.setMaxValue(smsMinSearchCount.length - 1);
                 mSmsSearchNumberPicker.setValue(Integer.parseInt(getSharedPreferences("config", MODE_PRIVATE).getString("config_sms_search_num", "2")) - 1);
                 builder.setView(mSmsSearchDialogView);
-                builder.setTitle("短信最大搜索条数:");
+                builder.setTitle("短信生效字符数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
@@ -171,7 +171,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mTranslationNumberPicker.setMaxValue(mTranslationMinCount.length - 1);
                 mTranslationNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_translation_num", 3) - 1);
                 builder.setView(mTranslationDialogView);
-                builder.setTitle("翻译生效字符数:");
+                builder.setTitle("翻译生效字符数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
@@ -207,7 +207,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mBaiduNumberPicker.setMaxValue(mBaiduMinCount.length - 1);
                 mBaiduNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_baidu_num", 3) - 1);
                 builder.setView(mBaiduDialogView);
-                builder.setTitle("百度搜索建议生效字符数:");
+                builder.setTitle("百度搜索建议生效字符数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
@@ -311,7 +311,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mBaiduCountNumberPicker.setMaxValue(mBaiduCount.length - 1);
                 mBaiduCountNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_baidu_count", 5) - 1);
                 builder.setView(mBaiduCountDialogView);
-                builder.setTitle("修改百度搜索建议生效字符数:");
+                builder.setTitle("百度搜索建议条数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
@@ -346,7 +346,7 @@ public class ConfigActivity extends AppCompatActivity {
                 mHistoryCountNumberPicker.setMaxValue(mHistoryCount.length - 1);
                 mHistoryCountNumberPicker.setValue(getSharedPreferences("config", MODE_PRIVATE).getInt("config_history_count", 5) - 1);
                 builder.setView(mHistoryCountDialogView);
-                builder.setTitle("修改百度搜索建议生效字符数:");
+                builder.setTitle("历史记录条数");
                 builder.setIcon(getResources().getDrawable(R.drawable.ic_mysettings));
                 builder.setPositiveButton("确定",
                         new android.content.DialogInterface.OnClickListener() {
